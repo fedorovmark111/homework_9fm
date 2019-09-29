@@ -69,7 +69,7 @@ class MyMatrix:
         for i in range(len(self.__data)):
             for j in range(len(self.__data[i])):
                 result[j][i] = self.__data[i][j]
-        self.data=result
+        self.__data=result
         return self
         
         
@@ -102,6 +102,14 @@ class MyMatrix:
             return MyMatrix(result)
         else:
             raise MatrixError('sizes are different')
+    
+    def new_add(self, other):
+        """self += other."""
+        return self+other
+        
+    def new_sub(self, other):  
+        """self -= other."""
+        return self-other
 
 sl= [[3, 5, 11, 8],[8, 9, 0, 4],[3, 4, 6, 7],[4, 8, 19, 1],[1, 2, 3, 4]]
 sl1=[[33, 5, 1, 1],[1, 3, 0, 3],[3, 5, 4, 9],[1, 2, 9, 8],[0, 9, 6, 7]]
