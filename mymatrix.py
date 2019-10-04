@@ -23,8 +23,14 @@ class MyMatrix:
         return m4
 
     def size(self) -> tuple:
-
-        return len(self.__data), len(self.__data[0])
+        width=0
+        height=0
+        if len(self.__data)==0:
+            pass  
+        else:
+            height=len(self.__data)
+            width=len(self.__data[0])
+        return (height, width)
        
 
     def flip_up_down(self):
@@ -65,11 +71,14 @@ class MyMatrix:
         5, 6, 7, 8        3, 7
                           4, 8
         """
-        result = [[0 for i in range(len(self.__data))] for j in range(len(self.__data[0]))]
-        for i in range(len(self.__data)):
-            for j in range(len(self.__data[i])):
-                result[j][i] = self.__data[i][j]
-        self.__data=result
+        if len(self.__data) != 0:   
+            result = [[0 for i in range(len(self.__data))] for j in range(len(self.__data[0]))]
+            for i in range(len(self.__data)):
+                for j in range(len(self.__data[i])):
+                   result[j][i] = self.__data[i][j]
+            self.__data=result
+        else: 
+            self.data=[]
         return self
         
         
@@ -84,45 +93,31 @@ class MyMatrix:
 	
     def get_data(self) -> list:
         return self.__data
-    def add(self, other):
+    def __add__(self, other):
         if len(self.__data) == len(other.__data) and len(self.__data[0]) == len(other.__data[0]):
-            result = [[0 for i in range(len(self.__data[0]))] for j in range(len(self.__data))]
+            result=copy.deepcopy(self.__data)
             for i in range(len(self.__data)):
-                for j in range(len(self.__data[0])):
-                    result[i][j] = self.__data[i][j] + other.__data[i][j]
+                for j in range(len(self.__data[i])):
+                    result[i][j] += other.__data[i][j]
             return MyMatrix(result)
         else:
             raise MatrixError('sizes are different')
-    def sub(self, other):
+    def __sub__(self, other):
         if len(self.__data) == len(other.__data) and len(self.__data[0]) == len(other.__data[0]):
-            result = [[0 for i in range(len(self.__data[0]))] for j in range(len(self.__data))]
+            result=copy.deepcopy(self.__data)
             for i in range(len(self.__data)):
-                for j in range(len(self.__data[0])):
-                    result[i][j] = self.__data[i][j] - other.__data[i][j]
+                for j in range(len(self.__data[i])):
+                    result[i][j] -= other.__data[i][j]
             return MyMatrix(result)
         else:
             raise MatrixError('sizes are different')
     
-    def new_add(self, other):
+    def __iadd__(self, other):
         """self += other."""
         return self+other
         
-    def new_sub(self, other):  
+    def __isub__(self, other):  
         """self -= other."""
         return self-other
 
-sl= [[3, 5, 11, 8],[8, 9, 0, 4],[3, 4, 6, 7],[4, 8, 19, 1],[1, 2, 3, 4]]
-sl1=[[33, 5, 1, 1],[1, 3, 0, 3],[3, 5, 4, 9],[1, 2, 9, 8],[0, 9, 6, 7]]
-m = MyMatrix(sl)
-m4 = MyMatrix(sl1)
-m1=(m.flipped_up_down())
-print(m1.__repr__())
-print(m.size())
-m2=(m.flipped_left_right())
-print(m2.__repr__())
-m3=(m.transposed())
-print(m3.__repr__())
-m5=m.add(m4)
-m6=m.sub(m4)
-print(m5.__repr__())
-print(m6.__repr__())
+
