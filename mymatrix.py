@@ -119,5 +119,6 @@ class MyMatrix:
     def __isub__(self, other):  
         """self -= other."""
         return self-other
+    def __get_item
 
 
